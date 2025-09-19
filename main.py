@@ -2789,14 +2789,22 @@ def start_sync(client_id):
     print(f"🔄 Sync started in background for client {client_id}")
 
 
-
 def run_flask():
-    # Use get_conn() here, never get_db()
-    conn = get_conn()
-    conn.close()
+    # Test DB connectivity at startup
+    try:
+        conn = get_conn()
+        conn.close()
+        print("✅ Database connection successful")
+    except Exception as e:
+        print(f"❌ Database connection failed: {e}")
 
-    # Start Flask server
-    app.run(host="127.0.0.1", port=5000, debug=False, use_reloader=False)
+    # Start Flask server (local only)
+    app.run(
+        host="127.0.0.1",
+        port=5000,
+        debug=False,
+        use_reloader=False
+    )
 
 
 # ------------------------------
